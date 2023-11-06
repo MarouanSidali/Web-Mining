@@ -64,7 +64,7 @@ for level, itemsets in frequent_itemsets.items():
     print(f"Level {level}:")
     for itemset, frequency in itemsets.items():
         support = frequency / len(dataset)
-        print(f"Itemset: {itemset}, Support: {support}")
+        print(f"Itemset: {itemset}, Support: {support: .5f}")
 
 # Flatten the frequent_itemsets dictionary
 flat_frequent_itemsets = {itemset: frequency for level_itemsets in frequent_itemsets.values() for itemset, frequency in level_itemsets.items()}
@@ -73,7 +73,7 @@ flat_frequent_itemsets = {itemset: frequency for level_itemsets in frequent_item
 rules = generate_rules(flat_frequent_itemsets, min_confidence)
 # Print the generated rules
 for rule in rules:
-    print(f"{rule[0]} => {rule[1]}, confidence = {rule[2]}")
+    print(f"{rule[0]} => {rule[1]}, confidence = {rule[2]: .5f}")
     
 
 # # Prepare data for the heatmap
