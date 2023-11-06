@@ -12,10 +12,22 @@ def load_data(filename):
         data = list(reader)
     return data
 
-# Generate candidate itemsets
 def generate_candidate_itemsets(level_k, level_frequent_itemsets):
-    return {itemset1.union(itemset2) for itemset1 in level_frequent_itemsets for itemset2 in level_frequent_itemsets 
-            if len(itemset1.union(itemset2)) == level_k}
+    # Initialize an empty set to store the candidate itemsets
+    candidate_itemsets = set()
+
+    # Iterate over all pairs of itemsets in level_frequent_itemsets
+    for itemset1 in level_frequent_itemsets:
+        for itemset2 in level_frequent_itemsets:
+            # Take the union of itemset1 and itemset2
+            union = itemset1.union(itemset2)
+
+            # If the size of the union is equal to level_k, add it to candidate_itemsets
+            if len(union) == level_k:
+                candidate_itemsets.add(union)
+
+    # Return the set of candidate itemsets
+    return candidate_itemsets
 
 # Returns frequent itemsets
 def generate_frequent_itemsets(dataset, candidate_itemsets):
@@ -79,18 +91,18 @@ for rule in rules:
     print(f"{rule[0]} => {rule[1]}, confidence = {rule[2]: .5f}")
     
 
-# # Prepare data for the heatmap
-# antecedents = [str(rule[0]) for rule in rules]
-# consequents = [str(rule[1]) for rule in rules]
-# confidences = [rule[2] for rule in rules]
-# data = pd.DataFrame({'antecedent': antecedents, 'consequent': consequents, 'confidence': confidences})
+# Prepare data for the heatmap
+antecedents = [str(rule[0]) for rule in rules]
+consequents = [str(rule[1]) for rule in rules]
+confidences = [rule[2] for rule in rules]
+data = pd.DataFrame({'antecedent': antecedents, 'consequent': consequents, 'confidence': confidences})
 
-# # Pivot the data
-# pivot_table = data.pivot(index='antecedent', columns='consequent', values='confidence')
+# Pivot the data
+pivot_table = data.pivot(index='antecedent', columns='consequent', values='confidence')
 
-# # Create heatmap
-# plt.figure(figsize=(10, 10))
-# sns.heatmap(pivot_table, cmap='YlGnBu')
-# plt.title('Heatmap of Association Rules')
-# plt.show()
+# Create heatmap
+plt.figure(figsize=(10, 10))
+sns.heatmap(pivot_table, cmap='YlGnBu')
+plt.title('Heatmap of Association Rules')
+plt.show()
 
