@@ -97,6 +97,7 @@ for level, itemsets in frequent_itemsets.items():
 # Flatten the frequent_itemsets dictionary
 # Initialize an empty dictionary
 flat_frequent_itemsets = {}
+print(frequent_itemsets)
 
 # Iterate over each level of itemsets in the frequent_itemsets dictionary
 for level_itemsets in frequent_itemsets.values():
