@@ -30,13 +30,27 @@ def generate_candidate_itemsets(level_k, level_frequent_itemsets):
     return candidate_itemsets
 
 # Returns frequent itemsets
-def generate_frequent_itemsets(dataset, candidate_itemsets):
-    counter = defaultdict(int)
-    for transaction in dataset:
+def generate_frequent_itemsets(transactions, candidate_itemsets):
+    # Initialize a dictionary to count the occurrences of each itemset
+    itemset_counts = defaultdict(int)
+
+    # Count the occurrences of each itemset in the transactions
+    for transaction in transactions:
         for itemset in candidate_itemsets:
             if itemset.issubset(transaction):
-                counter[itemset] += 1
-    return {itemset: frequency for itemset, frequency in counter.items() if frequency/len(dataset) >= min_support}
+                itemset_counts[itemset] += 1
+
+    # Calculate the total number of transactions
+    total_transactions = len(transactions)
+
+    # Generate the frequent itemsets by filtering out itemsets with support less than min_support
+    frequent_itemsets = {
+        itemset: count
+        for itemset, count in itemset_counts.items()
+        if count / total_transactions >= min_support
+    }
+
+    return frequent_itemsets
 
 # Generate association rules
 def generate_rules(frequent_itemsets, min_confidence):
@@ -61,7 +75,7 @@ dataset = load_data('Market_Basket_Optimisation.csv')
 
 # Apriori algorithm
 frequent_itemsets = dict()
-for k in range(1, 20):
+for k in range(1, 10):
     if k == 1:
         candidate_itemsets = {frozenset([item]) for transaction in dataset for item in transaction}
     else:
