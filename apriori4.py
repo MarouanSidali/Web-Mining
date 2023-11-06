@@ -60,6 +60,8 @@ for k in range(1, 20):
         break
 
 # Print the frequent itemsets
+print("\n********************Frequent Itemsets********************\n")
+
 for level, itemsets in frequent_itemsets.items():
     print(f"Level {level}:")
     for itemset, frequency in itemsets.items():
@@ -72,6 +74,7 @@ flat_frequent_itemsets = {itemset: frequency for level_itemsets in frequent_item
 # Generate association rules
 rules = generate_rules(flat_frequent_itemsets, min_confidence)
 # Print the generated rules
+print("\n*********************Association Rules********************\n")
 for rule in rules:
     print(f"{rule[0]} => {rule[1]}, confidence = {rule[2]: .5f}")
     
